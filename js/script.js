@@ -42,6 +42,8 @@ var app = new Vue({
       }
     ]);
     this.options = {
+      selectable: false,
+      editable: false,
       //stack: false,
       orientation: {
         axis: "top",
@@ -72,19 +74,6 @@ var app = new Vue({
       })
       return slotAvailable;
     },
-    reset() {
-      let date = new Date();
-      let h = this.addZero(date.getHours());
-      let m = this.addZero(date.getMinutes());
-      let _h = this.addZero(date.getHours()+1);
-      let initialDate = date.toISOString().substr(0, 10);
-      let initialTimeFrom = `${h}:${m}`;
-      let initialTimeTo = `${_h}:${m}`;
-      this.currentItem.date = initialDate;
-      this.currentItem.timeFrom = initialTimeFrom;
-      this.currentItem.timeTo = initialTimeTo;
-      this.currentItem.content = '';
-    },
     saveItem() {
       let latestItem = this.items.max('id');
       let currentId = latestItem ? latestItem.id + 1 : 1;
@@ -95,7 +84,8 @@ var app = new Vue({
         id: currentId,
         content: formattedContent,
         start: formattedStart,
-        end: formattedEnd
+        end: formattedEnd,
+        className: 'my-item'
       }
       if (this.validateAvailability(formattedItem)) {
         this.items.add(formattedItem);
@@ -108,6 +98,19 @@ var app = new Vue({
     deleteItem(itemId){
       this.items.remove(itemId);
       this.update();
+    },
+    reset() {
+      let date = new Date();
+      let h = this.addZero(date.getHours());
+      let m = this.addZero(date.getMinutes());
+      let _h = this.addZero(date.getHours()+1);
+      let initialDate = date.toISOString().substr(0, 10);
+      let initialTimeFrom = `${h}:${m}`;
+      let initialTimeTo = `${_h}:${m}`;
+      this.currentItem.date = initialDate;
+      this.currentItem.timeFrom = initialTimeFrom;
+      this.currentItem.timeTo = initialTimeTo;
+      this.currentItem.content = '';
     },
     update(){
       let unformattedItems = this.items.get();
