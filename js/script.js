@@ -4,6 +4,8 @@ var app = new Vue({
   data() {
     return {
         menuDate: false,
+        menuTimeFrom: false,
+        menuTimeTo: false,
         currentItem: {
           content: null,
           date: null,
@@ -48,6 +50,16 @@ var app = new Vue({
       zoomMax: 87600900, // 10,000 years is maximum possible
       zoomMin: 10000000 // 10ms
     };
+    let date = new Date();
+    let h = this.addZero(date.getHours());
+    let m = this.addZero(date.getMinutes());
+    let _h = this.addZero(date.getHours()+1);
+    let initialDate = date.toISOString().substr(0, 10);
+    let initialTimeFrom = `${h}:${m}`;
+    let initialTimeTo = `${_h}:${m}`;
+    this.currentItem.date = initialDate;
+    this.currentItem.timeFrom = initialTimeFrom;
+    this.currentItem.timeTo = initialTimeTo;
     this.timeline = new vis.Timeline(this.container, this.items, this.options);
     this.update();
   },
@@ -89,6 +101,12 @@ var app = new Vue({
         return formattedItem;
       })
       return formattedArray;
+    },
+    addZero(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
     }
   }
 })

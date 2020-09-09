@@ -61,19 +61,67 @@
                             </v-col>
                             <v-col>
                                 <span>Desde</span>
-                                <v-text-field
+                                <v-menu
+                                    ref="menu2"
+                                    v-model="menuTimeFrom"
+                                    :close-on-content-click="false"
+                                    :nudge-right="40"
+                                    :return-value.sync="currentItem.timeFrom"
+                                    transition="scale-transition"
+                                    offset-y
+                                    max-width="290px"
+                                    min-width="290px"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                        v-model="currentItem.timeFrom"
+                                        append-icon="mdi-clock-outline"
+                                        readonly
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        solo
+                                    ></v-text-field>
+                                    </template>
+                                    <v-time-picker
+                                    v-if="menuTimeFrom"
                                     v-model="currentItem.timeFrom"
-                                    append-icon="mdi-clock-outline"
-                                    solo>
-                                </v-text-field>
+                                    :max="currentItem.timeTo"
+                                    full-width
+                                    @click:minute="$refs.menu2.save(currentItem.timeFrom)"
+                                    ></v-time-picker>
+                                </v-menu>
                             </v-col>
                             <v-col>
                                 <span>Hasta</span>
-                                <v-text-field
+                                <v-menu
+                                    ref="menu3"
+                                    v-model="menuTimeTo"
+                                    :close-on-content-click="false"
+                                    :nudge-right="40"
+                                    :return-value.sync="currentItem.timeTo"
+                                    transition="scale-transition"
+                                    offset-y
+                                    max-width="290px"
+                                    min-width="290px"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                        v-model="currentItem.timeTo"
+                                        append-icon="mdi-clock-outline"
+                                        readonly
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        solo
+                                    ></v-text-field>
+                                    </template>
+                                    <v-time-picker
+                                    v-if="menuTimeTo"
                                     v-model="currentItem.timeTo"
-                                    append-icon="mdi-clock-outline"
-                                    solo>
-                                </v-text-field>
+                                    :min="currentItem.timeFrom"
+                                    full-width
+                                    @click:minute="$refs.menu3.save(currentItem.timeTo)"
+                                    ></v-time-picker>
+                                </v-menu>
                             </v-col>
                             <v-col cols="2">
                                 <v-btn
