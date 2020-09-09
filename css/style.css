@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
 body,
 html,
 input {
@@ -59,7 +59,8 @@ input {
 
 #input-container-title {
   color: #1C7666;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 #save-button {
@@ -67,8 +68,8 @@ input {
 }
 
 .timeline-title {
-  margin-top: 60px;
   color: #747474;
+  font-weight: 300;
 }
 
 .center {
@@ -149,6 +150,27 @@ input {
 }
 .vis-inner {
   min-height: 59px;
+}
+.square {
+  height: 10px;
+  width: 10px;
+  margin-right: 8px;
+}
+.empty {
+  border: 1px solid grey;
+}
+.yellow {
+  background-color: #FFF48B;
+}
+.green {
+  background-color: #91FEB5;
+}
+.lbl {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  color: #747474;
+  font-size: 13px;
 }
 
 
