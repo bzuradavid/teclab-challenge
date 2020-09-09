@@ -14,8 +14,58 @@
         <v-app>
         <v-main>
             <v-container>
+                <v-card>
+                    <v-container grid-list-lg id="input-container">
+                        <v-row>
+                            <v-col cols="12">
+                                <h3 id="input-container-title">
+                                    RESERVAR
+                                </h3>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="5">
+                                <span>Nombre</span>
+                                <v-text-field
+                                    solo>
+                                </v-text-field>
+                            </v-col>
+                            <v-col cols="2">
+                                <span>Fecha</span>
+                                <v-text-field
+                                    append-icon="mdi-calendar"
+                                    solo>
+                                </v-text-field>
+                            </v-col>
+                            <v-col>
+                                <span>Desde</span>
+                                <v-text-field
+                                    append-icon="mdi-clock-outline"
+                                    solo>
+                                </v-text-field>
+                            </v-col>
+                            <v-col>
+                                <span>Hasta</span>
+                                <v-text-field
+                                    append-icon="mdi-clock-outline"
+                                    solo>
+                                </v-text-field>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-btn
+                                    id="save-button"
+                                    color="#00AA8F"
+                                    height="48"
+                                    dark
+                                    block>
+                                    Guardar
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-card>
                 <h3>
-                    <b>Timeline</b>
+                    <b>Agenda de reservas</b>
                 </h3>
                 <div id="visualization">
                     <div class="menu">
