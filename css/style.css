@@ -69,3 +69,8 @@ input {
 .timeline-title {
   margin-top: 60px;
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+}

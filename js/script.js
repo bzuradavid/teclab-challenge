@@ -12,6 +12,12 @@ var app = new Vue({
         items: [],
         options: {},
         container: '',
+        formattedItems: [],
+        headers: [
+          { text: 'Nombre', value: 'name' },
+          { text: 'Horario', value: 'time', align: 'right' },
+          { text: 'Accion', value: 'action', align: 'center', sortable: false },
+        ],
     } 
   },
 
@@ -20,13 +26,13 @@ var app = new Vue({
     this.items = new vis.DataSet([
       {
         id: 1,
-        content: "Reserva 1",
+        content: "Javier Koraj",
         start: "2020-09-9 10:00",
         end: "2020-09-9 10:30"
       },
       {
         id: 2,
-        content: "Reserva 2",
+        content: "Alexander Fleitas",
         start: "2020-09-9 11:00",
         end: "2020-09-9 11:45"
       }
@@ -42,8 +48,10 @@ var app = new Vue({
       zoomMin: 10000000 // 10ms
     };
     this.timeline = new vis.Timeline(this.container, this.items, this.options);
+    let unformattedItems = this.items.get();
+    this.formattedItems = this.formatData(unformattedItems);
     console.log(this.items);
-
+    console.log(this.formattedItems);
   },
 
   methods: {
@@ -59,7 +67,29 @@ var app = new Vue({
         end: formattedEnd
       }
       this.items.add(formattedItem);
-      console.log(this.items);
+      let unformattedItems = this.items.get();
+      this.formattedItems = this.formatData(unformattedItems);
+      // console.log(this.items);
+    },
+    deleteItem(itemId){
+      console.log(itemId);
+      this.items.remove(itemId);
+      let unformattedItems = this.items.get();
+      this.formattedItems = this.formatData(unformattedItems);
+    },
+    formatData(data) {
+      let formattedArray = data.map(item => {
+        let start = item.start.split(" ");
+        let end = item.end.split(" ");
+        let formattedTime = `de ${start[1]} a ${end[1]}`;
+        let formattedItem = {
+          id: item.id,
+          name: item.content,
+          time: formattedTime
+        }
+        return formattedItem;
+      })
+      return formattedArray;
     }
   }
 })
