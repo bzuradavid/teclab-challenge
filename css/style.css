@@ -109,3 +109,7 @@ input {
 .material-icons {
   font-size: 36px;
 }
+.px12{
+  padding-left: 12px;
+  padding-right: 12px;
+}

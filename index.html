@@ -180,6 +180,22 @@
                     </template>
                 </v-data-table>
             </v-container>
+            <v-dialog v-model="showAlert" max-width="600">
+                <v-card>
+                    <v-container>
+                        <v-row class="px12">
+                            <h3>La franja seleccionada no se encuentra disponible</h3>
+                        </v-row>
+                        <v-row class="px12">
+                            <p>Por favor seleccione una nueva franja</p>
+                        </v-row>
+                        <v-row class="px12">
+                            <v-spacer></v-spacer>
+                            <v-btn color="primary" @click="showAlert=false">Aceptar</v-btn>
+                        </v-row>
+                    </v-container>
+                </v-card>
+            </v-dialog>
         </v-main>
         </v-app>
     </div>

@@ -70,7 +70,6 @@ var app = new Vue({
           }
         }
       })
-      console.log(slotAvailable);
       return slotAvailable;
     },
     reset() {
