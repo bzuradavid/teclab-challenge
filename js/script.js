@@ -50,24 +50,28 @@ var app = new Vue({
       zoomMax: 87600900, // 10,000 years is maximum possible
       zoomMin: 10000000 // 10ms
     };
-    let date = new Date();
-    let h = this.addZero(date.getHours());
-    let m = this.addZero(date.getMinutes());
-    let _h = this.addZero(date.getHours()+1);
-    let initialDate = date.toISOString().substr(0, 10);
-    let initialTimeFrom = `${h}:${m}`;
-    let initialTimeTo = `${_h}:${m}`;
-    this.currentItem.date = initialDate;
-    this.currentItem.timeFrom = initialTimeFrom;
-    this.currentItem.timeTo = initialTimeTo;
     this.timeline = new vis.Timeline(this.container, this.items, this.options);
+    this.reset()
     this.update();
   },
 
   methods: {
+    reset() {
+      let date = new Date();
+      let h = this.addZero(date.getHours());
+      let m = this.addZero(date.getMinutes());
+      let _h = this.addZero(date.getHours()+1);
+      let initialDate = date.toISOString().substr(0, 10);
+      let initialTimeFrom = `${h}:${m}`;
+      let initialTimeTo = `${_h}:${m}`;
+      this.currentItem.date = initialDate;
+      this.currentItem.timeFrom = initialTimeFrom;
+      this.currentItem.timeTo = initialTimeTo;
+      this.currentItem.content = '';
+    },
     saveItem() {
       let latestItem = this.items.max('id');
-      let currentId = latestItem.id + 1;
+      let currentId = latestItem ? latestItem.id + 1 : 1;
       let formattedContent = this.currentItem.content;
       let formattedStart = this.currentItem.date + " " + this.currentItem.timeFrom;
       let formattedEnd = this.currentItem.date + " " + this.currentItem.timeTo;
@@ -78,6 +82,7 @@ var app = new Vue({
         end: formattedEnd
       }
       this.items.add(formattedItem);
+      this.reset()
       this.update();
     },
     deleteItem(itemId){
