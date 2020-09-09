@@ -6,6 +6,11 @@ input {
   font-size: 12pt;
 }
 
+#app{
+  font-family: "Montserrat", sans-serif;
+  font-size: 12pt;
+}
+
 #visualization {
   position: relative;
 }
