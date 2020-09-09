@@ -1,7 +1,12 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
 body,
 html,
 input {
+  font-family: "Montserrat", sans-serif;
+  font-size: 12pt;
+}
+
+#app{
   font-family: "Montserrat", sans-serif;
   font-size: 12pt;
 }
@@ -31,7 +36,7 @@ input {
   padding: 0px;
   margin: 0px;
   height: 20px;
-  margin-top: -12px;
+  /* margin-top: -12px; */
   margin-right: 12px;
 }
 
@@ -46,3 +51,127 @@ input {
 .buttons-menu:hover {
   opacity: 0.9;
 }
+
+#input-container {
+  padding: 12px 36px;
+  margin-top: 90px;
+}
+
+#input-container-title {
+  color: #1C7666;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#save-button {
+  margin-top: 24px;
+}
+
+.timeline-title {
+  color: #747474;
+  font-weight: 300;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.vis-item {
+  border-color: orange;
+  background-color: yellow;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -122px;
+}
+.navigation-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 122px;
+  width: 50px;
+  z-index: 20;
+  border:1px solid lightgrey;
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+.left {
+  box-shadow: 6px 0px 10px -10px rgba(0,0,0,0.75);
+}
+.right{
+  box-shadow: -6px 0px 10px -10px rgba(0,0,0,0.75);
+}
+.arrow {
+  color: #808080;
+}
+.material-icons {
+  font-size: 36px;
+}
+.px12{
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.vis-item {
+  transform: translateY(6px);
+  color: #FFF48B;
+  background-color: #FFF48B;
+}
+.vis-item:hover {
+  color: #FFF48B;
+  background-color: #FFF48B;
+}
+.vis-item:active {
+  color: #FFF48B;
+  background-color: #FFF48B;
+}
+.vis-item:focus {
+  color: #FFF48B;
+  background-color: #FFF48B;
+}
+.my-item {
+  transform: translateY(-6px);
+  color: #91FEB5;
+  background-color: #91FEB5;
+}
+.my-item:hover {
+  color: #91FEB5;
+  background-color: #91FEB5;
+}
+.my-item:active {
+  color: #91FEB5;
+  background-color: #91FEB5;
+}
+.my-item:focus {
+  color: #91FEB5;
+  background-color: #91FEB5;
+}
+.vis-inner {
+  min-height: 59px;
+}
+.square {
+  height: 10px;
+  width: 10px;
+  margin-right: 8px;
+}
+.empty {
+  border: 1px solid grey;
+}
+.yellow {
+  background-color: #FFF48B;
+}
+.green {
+  background-color: #91FEB5;
+}
+.lbl {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  color: #747474;
+  font-size: 13px;
+}
+
+
