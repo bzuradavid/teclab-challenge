@@ -3,6 +3,7 @@ var app = new Vue({
   vuetify: new Vuetify(),
   data() {
     return {
+        menuDate: false,
         currentItem: {
           content: null,
           date: null,
@@ -48,13 +49,13 @@ var app = new Vue({
       zoomMin: 10000000 // 10ms
     };
     this.timeline = new vis.Timeline(this.container, this.items, this.options);
-    let unformattedItems = this.items.get();
-    this.formattedItems = this.formatData(unformattedItems);
+    this.update();
   },
 
   methods: {
     saveItem() {
-      let currentId = this.items.length + 1;
+      let latestItem = this.items.max('id');
+      let currentId = latestItem.id + 1;
       let formattedContent = this.currentItem.content;
       let formattedStart = this.currentItem.date + " " + this.currentItem.timeFrom;
       let formattedEnd = this.currentItem.date + " " + this.currentItem.timeTo;
@@ -68,7 +69,6 @@ var app = new Vue({
       this.update();
     },
     deleteItem(itemId){
-      console.log(itemId);
       this.items.remove(itemId);
       this.update();
     },
