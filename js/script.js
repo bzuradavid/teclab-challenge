@@ -3,7 +3,11 @@ var app = new Vue({
   vuetify: new Vuetify(),
   data() {
     return {
-        showAlert: false,
+        alertDialog: {
+          title: null,
+          text: null,
+          show: null
+        },
         menuDate: false,
         menuTimeFrom: false,
         menuTimeTo: false,
@@ -20,7 +24,7 @@ var app = new Vue({
         headers: [
           { text: 'Nombre', value: 'name' },
           { text: 'Horario', value: 'time', align: 'right' },
-          { text: 'Accion', value: 'action', align: 'center', sortable: false },
+          { text: 'Acción', value: 'action', align: 'center', sortable: false },
         ],
     } 
   },
@@ -30,21 +34,46 @@ var app = new Vue({
     this.items = new vis.DataSet([
       {
         id: 1,
-        content: "Javier Koraj",
-        start: "2020-09-09 10:00",
-        end: "2020-09-09 10:30"
+        content: "Alvarado, Eduardo Alfonso",
+        start: new Date().toISOString().substr(0, 10) + " 09:30",
+        end: new Date().toISOString().substr(0, 10) + " 10:30"
       },
       {
         id: 2,
-        content: "Alexander Fleitas",
-        start: "2020-09-09 11:00",
-        end: "2020-09-09 11:45"
+        content: "Acuña López, Juliana",
+        start: new Date().toISOString().substr(0, 10) + " 11:00",
+        end: new Date().toISOString().substr(0, 10) + " 12:30"
+      },
+      {
+        id: 3,
+        content: "Arenales, Ingrid Lorena",
+        start: new Date().toISOString().substr(0, 10) + " 12:30",
+        end: new Date().toISOString().substr(0, 10) + " 13:30"
+      },
+      {
+        id: 4,
+        content: "Barreto Ruíz, Aldana",
+        start: new Date().toISOString().substr(0, 10) + " 13:30",
+        end: new Date().toISOString().substr(0, 10) + " 16:00"
+      },
+      {
+        id: 5,
+        content: "Buitrago Lozano, Daniel Esteban",
+        start: new Date().toISOString().substr(0, 10) + " 16:30",
+        end: new Date().toISOString().substr(0, 10) + " 17:30"
+      },
+      {
+        id: 6,
+        content: "Delgado, Ángel David",
+        start: new Date().toISOString().substr(0, 10) + " 17:30",
+        end: new Date().toISOString().substr(0, 10) + " 19:00"
       }
+      
     ]);
     this.options = {
       selectable: false,
       editable: false,
-      //stack: false,
+      stack: false,
       orientation: {
         axis: "top",
         item: "top"
@@ -59,6 +88,14 @@ var app = new Vue({
   },
 
   methods: {
+    allowedStep: m => m % 15 === 0,
+    showAlert(title, text) {
+      this.alertDialog = {
+        title: title,
+        text: text,
+        show: true
+      }
+    },
     validateAvailability(newItem){
       let slotAvailable = true;
       this.items.forEach(item => {
@@ -87,12 +124,16 @@ var app = new Vue({
         end: formattedEnd,
         className: 'my-item'
       }
+      if (!this.currentItem.content) {
+        this.showAlert('Campo requerido', 'Debe ingresar su Nombre para completar la reserva');
+        return;
+      }
       if (this.validateAvailability(formattedItem)) {
         this.items.add(formattedItem);
         this.reset()
         this.update();
       } else {
-        this.showAlert = true;
+        this.showAlert('La franja seleccionada no se encuentra disponible', 'Por favor seleccione otra franja horaria');
       }
     },
     deleteItem(itemId){
@@ -146,77 +187,3 @@ var app = new Vue({
     }
   }
 })
-
-// // create a timeline with some data
-// var container = document.getElementById("visualization");
-// var items = new vis.DataSet([
-//   {
-//     id: 1,
-//     content: "Reserva 1",
-//     start: "2020-09-9 10:00",
-//     end: "2020-09-9 10:30"
-//   },
-//   {
-//     id: 2,
-//     content: "Reserva 2",
-//     start: "2020-09-9 11:00",
-//     end: "2020-09-9 11:45"
-//   }
-// ]);
-// var options = {
-//   //stack: false,
-//   orientation: {
-//     axis: "top",
-//     item: "top"
-//   },
-//   //zoomMax: 31536000000, // just one year
-//   zoomMax: 87600900, // 10,000 years is maximum possible
-//   zoomMin: 10000000 // 10ms
-// };
-// var timeline = new vis.Timeline(container, items, options);
-
-// /**
-//      * Move the timeline a given percentage to left or right
-//      * @param {Number} percentage   For example 0.1 (left) or -0.1 (right)
-//      */
-// function move(percentage) {
-//   var range = timeline.getWindow();
-//   var interval = range.end - range.start;
-//   timeline.setWindow({
-//     start: range.start.valueOf() - interval * percentage,
-//     end: range.end.valueOf() - interval * percentage
-//   });
-// }
-
-// // attach events to the navigation buttons
-// document.getElementById("moveLeft").onclick = function() {
-//   move(0.2);
-// };
-// document.getElementById("moveRight").onclick = function() {
-//   move(-0.2);
-// };
-
-// // Using slider to zoomIn or zoomOut
-// document.getElementById("sliderZoom").addEventListener("input", function(e) {
-//   var value = this.value;
-//   if (value < 0) {
-//     var start = moment().year(moment().year() - 100000), // to adjust with options
-//       end = moment().year(moment().year() + 1);
-//     timeline.zoomOut(-value);
-//     if (value === "-1") timeline.setWindow(start, end);
-//   } else if (value > 0) {
-//     var start = moment(), end = moment(moment().utc() + 10);
-//     timeline.zoomIn(value);
-//     if (value === "1") timeline.setWindow(start, end);
-//   } else {
-//     timeline.fit(items.getIds());
-//     this.value = 0;
-//   }
-// });
-
-// // To reset zoom initial state
-// document.getElementById("fit").onclick = function() {
-//   //$('.range').next().text('0'); // set default if to use output with input range
-//   document.getElementById("sliderZoom").value = 0;
-//   timeline.fit(items.getIds());
-// };

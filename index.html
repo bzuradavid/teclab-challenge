@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script>window.onload = function(){document.body.style.opacity="100";}</script>
         <link rel="stylesheet" type="text/css" href="css/full-style.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -8,211 +9,214 @@
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-        <style>
-            
-        </style>
+        <meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
+        <title>Teclab coding challenge</title>
     </head>
-<body>
-    <div id="app">
-        <v-app>
-        <v-main>
-            <v-container>
-                <v-card>
-                    <v-container grid-list-lg id="input-container">
-                        <v-row>
-                            <v-col cols="12">
-                                <h3 id="input-container-title">
-                                    RESERVAR
-                                </h3>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="5">
-                                <span>Nombre</span>
-                                <v-text-field
-                                    autofocus
-                                    v-model="currentItem.content"
-                                    solo>
-                                </v-text-field>
-                            </v-col>
-                            <v-col cols="2">
-                                <span>Fecha</span>
-                                <v-menu
-                                    ref="menuDate"
-                                    v-model="menuDate"
-                                    :close-on-content-click="false"
-                                    :return-value.sync="currentItem.date"
-                                    transition="scale-transition"
-                                    offset-y
-                                    min-width="290px"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field
-                                        v-model="currentItem.date"
-                                        append-icon="mdi-calendar"
-                                        readonly
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        solo
-                                    ></v-text-field>
-                                    </template>
-                                    <v-date-picker v-model="currentItem.date" no-title scrollable>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="menuDate = false">Cancel</v-btn>
-                                    <v-btn text color="primary" @click="$refs.menuDate.save(currentItem.date)">OK</v-btn>
-                                    </v-date-picker>
-                                </v-menu>
-                            </v-col>
-                            <v-col>
-                                <span>Desde</span>
-                                <v-menu
-                                    ref="menu2"
-                                    v-model="menuTimeFrom"
-                                    :close-on-content-click="false"
-                                    :nudge-right="40"
-                                    :return-value.sync="currentItem.timeFrom"
-                                    transition="scale-transition"
-                                    offset-y
-                                    max-width="290px"
-                                    min-width="290px"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field
-                                        v-model="currentItem.timeFrom"
-                                        append-icon="mdi-clock-outline"
-                                        readonly
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        solo
-                                    ></v-text-field>
-                                    </template>
-                                    <v-time-picker
-                                    v-if="menuTimeFrom"
-                                    v-model="currentItem.timeFrom"
-                                    full-width
-                                    @click:minute="$refs.menu2.save(currentItem.timeFrom)"
-                                    ></v-time-picker>
-                                </v-menu>
-                            </v-col>
-                            <v-col>
-                                <span>Hasta</span>
-                                <v-menu
-                                    ref="menu3"
-                                    v-model="menuTimeTo"
-                                    :close-on-content-click="false"
-                                    :nudge-right="40"
-                                    :return-value.sync="currentItem.timeTo"
-                                    transition="scale-transition"
-                                    offset-y
-                                    max-width="290px"
-                                    min-width="290px"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field
-                                        v-model="currentItem.timeTo"
-                                        append-icon="mdi-clock-outline"
-                                        readonly
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        solo
-                                    ></v-text-field>
-                                    </template>
-                                    <v-time-picker
-                                    v-if="menuTimeTo"
-                                    v-model="currentItem.timeTo"
-                                    :min="currentItem.timeFrom"
-                                    full-width
-                                    @click:minute="$refs.menu3.save(currentItem.timeTo)"
-                                    ></v-time-picker>
-                                </v-menu>
-                            </v-col>
-                            <v-col cols="2">
-                                <v-btn
-                                    @click="saveItem"
-                                    id="save-button"
-                                    color="#00AA8F"
-                                    height="49"
-                                    dark
-                                    block>
-                                    Guardar
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-card>
-                <br /><br />
-                <v-container>
-                    <v-row align="center">
-                        <h3 class="timeline-title">
-                            <b>Agenda de Reservas</b>
-                        </h3>
-                        <v-spacer></v-spacer>
-                        <div class="lbl">
-                            <div class="empty square"></div>
-                            Disponible
-                        </div>
-                        <div class="lbl">
-                            <div class="yellow square"></div>
-                            Reservado
-                        </div>
-                        <div class="lbl">
-                            <div class="green square"></div>
-                            Mi Reserva Actual
-                        </div>
-                    </v-row>
-                </v-container>
-                <div id="visualization"></div>
-                <div class="navigation-buttons">
-                    <div class="navigation-button left" @click="move(0.2)">
-                        <i class="material-icons arrow" id="moveLeft">keyboard_arrow_left</i>
-                    </div>
-                    <div class="navigation-button right" @click="move(-0.2)">
-                        <i class="material-icons arrow" id="moveRight">keyboard_arrow_right</i>
-                    </div>
-                </div>
-                <br /><br />
-                <v-data-table
-                    :items="formattedItems"
-                    :headers="headers"
-                    hide-default-footer
-                    sort-by="time"
-                    must-sort>
-                    <template v-slot:item.name="{ item }">
-                        <td style="width:700px"><b>{{ item.name }}</b></td>
-                    </template>
-                    <template v-slot:item.action="{ item }">
-                        <td class="center">
-                            <i @click="deleteItem(item.id)" class="material-icons dp48" style="color: lightgrey; cursor: pointer;">
-                                delete
-                            </i>
-                        </td>
-                    </template>
-                </v-data-table>
-            </v-container>
-            <v-dialog v-model="showAlert" max-width="600">
-                <v-card>
+    <body>
+        <style> body  {opacity:0;}</style>
+        <div id="app">
+            <v-app>
+                <v-main>
                     <v-container>
-                        <v-row class="px12">
-                            <h3>La franja seleccionada no se encuentra disponible</h3>
-                        </v-row>
-                        <v-row class="px12">
-                            <p>Por favor seleccione una nueva franja</p>
-                        </v-row>
-                        <v-row class="px12">
-                            <v-spacer></v-spacer>
-                            <v-btn color="primary" @click="showAlert=false">Aceptar</v-btn>
-                        </v-row>
+                        <v-card>
+                            <v-container grid-list-lg id="input-container">
+                                <v-row>
+                                    <v-col cols="12">
+                                        <h3 id="input-container-title">RESERVAR</h3>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="5">
+                                        <span>Nombre</span>
+                                        <v-text-field
+                                            autofocus
+                                            v-model="currentItem.content"
+                                            solo>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <span>Fecha</span>
+                                        <v-menu
+                                            ref="menuDate"
+                                            v-model="menuDate"
+                                            :close-on-content-click="false"
+                                            :return-value.sync="currentItem.date"
+                                            transition="scale-transition"
+                                            offset-y
+                                            min-width="290px"
+                                            >
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field
+                                                    v-model="currentItem.date"
+                                                    append-icon="mdi-calendar"
+                                                    readonly
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    solo>
+                                                </v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="currentItem.date" locale="es-ar" no-title scrollable>
+                                                <v-spacer></v-spacer>
+                                                <v-btn text color="primary" @click="menuDate = false">Cancelar</v-btn>
+                                                <v-btn text color="primary" @click="$refs.menuDate.save(currentItem.date)">OK</v-btn>
+                                            </v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    <v-col>
+                                        <span>Desde</span>
+                                        <v-menu
+                                            ref="menu2"
+                                            v-model="menuTimeFrom"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            :return-value.sync="currentItem.timeFrom"
+                                            transition="scale-transition"
+                                            offset-y
+                                            max-width="290px"
+                                            min-width="290px"
+                                            >
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field
+                                                    v-model="currentItem.timeFrom"
+                                                    append-icon="mdi-clock-outline"
+                                                    readonly
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    solo>
+                                                </v-text-field>
+                                            </template>
+                                            <v-time-picker
+                                                v-if="menuTimeFrom"
+                                                v-model="currentItem.timeFrom"
+                                                :allowed-minutes="allowedStep"
+                                                full-width
+                                                format="24hr"
+                                                @click:minute="$refs.menu2.save(currentItem.timeFrom)">
+                                            </v-time-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    <v-col>
+                                        <span>Hasta</span>
+                                        <v-menu
+                                            ref="menu3"
+                                            v-model="menuTimeTo"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            :return-value.sync="currentItem.timeTo"
+                                            transition="scale-transition"
+                                            offset-y
+                                            max-width="290px"
+                                            min-width="290px"
+                                            >
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field
+                                                    v-model="currentItem.timeTo"
+                                                    append-icon="mdi-clock-outline"
+                                                    readonly
+                                                    v-bind="attrs"
+                                                    v-on="on"
+                                                    solo>
+                                                </v-text-field>
+                                            </template>
+                                            <v-time-picker
+                                                v-if="menuTimeTo"
+                                                v-model="currentItem.timeTo"
+                                                :allowed-minutes="allowedStep"
+                                                :min="currentItem.timeFrom"
+                                                full-width
+                                                format="24hr"
+                                                @click:minute="$refs.menu3.save(currentItem.timeTo)">
+                                            </v-time-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-btn
+                                            @click="saveItem"
+                                            id="save-button"
+                                            color="#00AA8F"
+                                            height="49"
+                                            dark
+                                            block>
+                                            Guardar
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-card>
+                        <br /><br />
+                        <v-container>
+                            <v-row align="center">
+                                <h3 class="timeline-title">
+                                    <b>Agenda de Reservas</b>
+                                </h3>
+                                <v-spacer></v-spacer>
+                                <div class="lbl">
+                                    <div class="empty square"></div>
+                                    Disponible
+                                </div>
+                                <div class="lbl">
+                                    <div class="yellow square"></div>
+                                    Reservado
+                                </div>
+                                <div class="lbl">
+                                    <div class="green square"></div>
+                                    Mi Reserva Actual
+                                </div>
+                            </v-row>
+                        </v-container>
+                        <div id="visualization"></div>
+                        <div class="navigation-buttons">
+                            <div class="navigation-button left" @click="move(0.2)">
+                                <i class="material-icons arrow" id="moveLeft">keyboard_arrow_left</i>
+                            </div>
+                            <div class="navigation-button right" @click="move(-0.2)">
+                                <i class="material-icons arrow" id="moveRight">keyboard_arrow_right</i>
+                            </div>
+                        </div>
+                        <br /><br />
+                        <v-data-table
+                            :items="formattedItems"
+                            :headers="headers"
+                            hide-default-footer
+                            sort-by="time"
+                            must-sort
+                            >
+                            <template v-slot:item.name="{ item }">
+                                <td style="width:700px"><b>{{ item.name }}</b></td>
+                            </template>
+                            <template v-slot:item.action="{ item }">
+                                <td class="center">
+                                    <i @click="deleteItem(item.id)" class="material-icons dp48" style="color: lightgrey; cursor: pointer;">
+                                        delete
+                                    </i>
+                                </td>
+                            </template>
+                        </v-data-table>
+                        <br /><br />
                     </v-container>
-                </v-card>
-            </v-dialog>
-        </v-main>
-        </v-app>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-    <script src="js/moment.js"></script>
-    <script src="js/vis.js"></script>
-    <script src="js/script.js"></script>
-</body>
+                    <v-dialog v-model="alertDialog.show" max-width="600">
+                        <v-card>
+                            <v-container>
+                                <v-row class="px12">
+                                    <h3>{{ alertDialog.title }}</h3>
+                                </v-row>
+                                <v-row class="px12">
+                                    <p>{{ alertDialog.text }}</p>
+                                </v-row>
+                                <v-row class="px12">
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="primary" @click="alertDialog.show=false">Aceptar</v-btn>
+                                </v-row>
+                            </v-container>
+                        </v-card>
+                    </v-dialog>
+                </v-main>
+            </v-app>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+        <script src="js/moment.js"></script>
+        <script src="js/vis.js"></script>
+        <script src="js/script.js"></script>
+    </body>
 </html>

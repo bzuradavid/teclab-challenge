@@ -116,6 +116,7 @@ input {
 }
 
 .vis-item {
+  transform: translateY(6px);
   color: #FFF48B;
   background-color: #FFF48B;
 }
@@ -132,7 +133,7 @@ input {
   background-color: #FFF48B;
 }
 .my-item {
-  transform: translateY(-10px);
+  transform: translateY(-6px);
   color: #91FEB5;
   background-color: #91FEB5;
 }
