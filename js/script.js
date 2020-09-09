@@ -3,6 +3,7 @@ var app = new Vue({
   vuetify: new Vuetify(),
   data() {
     return {
+        showAlert: false,
         menuDate: false,
         menuTimeFrom: false,
         menuTimeTo: false,
@@ -30,14 +31,14 @@ var app = new Vue({
       {
         id: 1,
         content: "Javier Koraj",
-        start: "2020-09-9 10:00",
-        end: "2020-09-9 10:30"
+        start: "2020-09-09 10:00",
+        end: "2020-09-09 10:30"
       },
       {
         id: 2,
         content: "Alexander Fleitas",
-        start: "2020-09-9 11:00",
-        end: "2020-09-9 11:45"
+        start: "2020-09-09 11:00",
+        end: "2020-09-09 11:45"
       }
     ]);
     this.options = {
@@ -56,6 +57,22 @@ var app = new Vue({
   },
 
   methods: {
+    validateAvailability(newItem){
+      let slotAvailable = true;
+      this.items.forEach(item => {
+        if (item.start < newItem.start) {
+          if (item.end > newItem.start) {
+            slotAvailable = false;
+          }
+        } else {
+          if (item.start < newItem.end) {
+            slotAvailable = false;
+          }
+        }
+      })
+      console.log(slotAvailable);
+      return slotAvailable;
+    },
     reset() {
       let date = new Date();
       let h = this.addZero(date.getHours());
@@ -81,9 +98,13 @@ var app = new Vue({
         start: formattedStart,
         end: formattedEnd
       }
-      this.items.add(formattedItem);
-      this.reset()
-      this.update();
+      if (this.validateAvailability(formattedItem)) {
+        this.items.add(formattedItem);
+        this.reset()
+        this.update();
+      } else {
+        this.showAlert = true;
+      }
     },
     deleteItem(itemId){
       this.items.remove(itemId);
