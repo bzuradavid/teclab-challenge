@@ -27,12 +27,14 @@
                             <v-col cols="5">
                                 <span>Nombre</span>
                                 <v-text-field
+                                    v-model="currentItem.content"
                                     solo>
                                 </v-text-field>
                             </v-col>
                             <v-col cols="2">
                                 <span>Fecha</span>
                                 <v-text-field
+                                    v-model="currentItem.date"
                                     append-icon="mdi-calendar"
                                     solo>
                                 </v-text-field>
@@ -40,6 +42,7 @@
                             <v-col>
                                 <span>Desde</span>
                                 <v-text-field
+                                    v-model="currentItem.timeFrom"
                                     append-icon="mdi-clock-outline"
                                     solo>
                                 </v-text-field>
@@ -47,15 +50,17 @@
                             <v-col>
                                 <span>Hasta</span>
                                 <v-text-field
+                                    v-model="currentItem.timeTo"
                                     append-icon="mdi-clock-outline"
                                     solo>
                                 </v-text-field>
                             </v-col>
                             <v-col cols="2">
                                 <v-btn
+                                    @click="saveItem"
                                     id="save-button"
                                     color="#00AA8F"
-                                    height="48"
+                                    height="49"
                                     dark
                                     block>
                                     Guardar

@@ -3,6 +3,12 @@ var app = new Vue({
   vuetify: new Vuetify(),
   data() {
     return {
+        currentItem: {
+          content: null,
+          date: null,
+          timeFrom: null,
+          timeTo: null
+        },
         items: [],
         options: {},
         container: '',
@@ -10,33 +16,51 @@ var app = new Vue({
   },
 
   mounted() {
-      this.container = document.getElementById('visualization');
-      this.items = new vis.DataSet([
-        {
-          id: 1,
-          content: "Reserva 1",
-          start: "2020-09-9 10:00",
-          end: "2020-09-9 10:30"
-        },
-        {
-          id: 2,
-          content: "Reserva 2",
-          start: "2020-09-9 11:00",
-          end: "2020-09-9 11:45"
-        }
-      ]);
-      this.options = {
-        //stack: false,
-        orientation: {
-          axis: "top",
-          item: "top"
-        },
-        //zoomMax: 31536000000, // just one year
-        zoomMax: 87600900, // 10,000 years is maximum possible
-        zoomMin: 10000000 // 10ms
-      };
-      this.timeline = new vis.Timeline(this.container, this.items, this.options);
+    this.container = document.getElementById('visualization');
+    this.items = new vis.DataSet([
+      {
+        id: 1,
+        content: "Reserva 1",
+        start: "2020-09-9 10:00",
+        end: "2020-09-9 10:30"
+      },
+      {
+        id: 2,
+        content: "Reserva 2",
+        start: "2020-09-9 11:00",
+        end: "2020-09-9 11:45"
+      }
+    ]);
+    this.options = {
+      //stack: false,
+      orientation: {
+        axis: "top",
+        item: "top"
+      },
+      //zoomMax: 31536000000, // just one year
+      zoomMax: 87600900, // 10,000 years is maximum possible
+      zoomMin: 10000000 // 10ms
+    };
+    this.timeline = new vis.Timeline(this.container, this.items, this.options);
+    console.log(this.items);
 
+  },
+
+  methods: {
+    saveItem() {
+      let currentId = this.items.length + 1;
+      let formattedContent = this.currentItem.content
+      let formattedStart = this.currentItem.date + " " + this.currentItem.timeFrom;
+      let formattedEnd = this.currentItem.date + " " + this.currentItem.timeTo;
+      let formattedItem = {
+        id: currentId,
+        content: formattedContent,
+        start: formattedStart,
+        end: formattedEnd
+      }
+      this.items.add(formattedItem);
+      console.log(this.items);
+    }
   }
 })
 
