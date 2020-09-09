@@ -112,6 +112,14 @@ var app = new Vue({
         i = "0" + i;
       }
       return i;
+    },
+    move(percentage) {
+      var range = this.timeline.getWindow();
+      var interval = range.end - range.start;
+      this.timeline.setWindow({
+        start: range.start.valueOf() - interval * percentage,
+        end: range.end.valueOf() - interval * percentage
+      });
     }
   }
 })

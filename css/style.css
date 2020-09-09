@@ -75,3 +75,37 @@ input {
   display: flex;
   justify-content: center;
 }
+
+.vis-item {
+  border-color: orange;
+  background-color: yellow;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -122px;
+}
+.navigation-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 122px;
+  width: 50px;
+  z-index: 10;
+  border:1px solid lightgrey;
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+.left {
+  box-shadow: 6px 0px 10px -10px rgba(0,0,0,0.75);
+}
+.right{
+  box-shadow: -6px 0px 10px -10px rgba(0,0,0,0.75);
+}
+.arrow {
+  color: #808080;
+}
+.material-icons {
+  font-size: 36px;
+}

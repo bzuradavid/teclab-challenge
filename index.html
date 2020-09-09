@@ -145,12 +145,20 @@
                     </v-row>
                 </v-container>
                 <div id="visualization">
-                    <div class="menu">
+                    <!-- <div class="menu">
                         <input style="display:none;" id="sliderZoom" type="range" class="range" name="a" min="-1" max="1" step="0.1"
                             value="0" />
-                        <!-- <i class="material-icons dp48 buttons-menu" id="fit">home</i>
-                        <i class="material-icons dp48 buttons-menu" id="moveLeft">arrow_back</i>
-                        <i class="material-icons dp48 buttons-menu" id="moveRight">arrow_forward</i> -->
+                            <i class="material-icons dp48 buttons-menu" id="fit">home</i>
+                            <i class="material-icons dp48 buttons-menu" id="moveLeft" @click="move(0.2)">arrow_back</i>
+                            <i class="material-icons dp48 buttons-menu" id="moveRight" @click="move(-0.2)">arrow_forward</i>
+                    </div> -->
+                </div>
+                <div class="navigation-buttons">
+                    <div class="navigation-button left" @click="move(0.2)">
+                        <i class="material-icons arrow" id="moveLeft">keyboard_arrow_left</i>
+                    </div>
+                    <div class="navigation-button right" @click="move(-0.2)">
+                        <i class="material-icons arrow" id="moveRight">keyboard_arrow_right</i>
                     </div>
                 </div>
                 <br /><br />
