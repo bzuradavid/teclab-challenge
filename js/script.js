@@ -50,14 +50,12 @@ var app = new Vue({
     this.timeline = new vis.Timeline(this.container, this.items, this.options);
     let unformattedItems = this.items.get();
     this.formattedItems = this.formatData(unformattedItems);
-    console.log(this.items);
-    console.log(this.formattedItems);
   },
 
   methods: {
     saveItem() {
       let currentId = this.items.length + 1;
-      let formattedContent = this.currentItem.content
+      let formattedContent = this.currentItem.content;
       let formattedStart = this.currentItem.date + " " + this.currentItem.timeFrom;
       let formattedEnd = this.currentItem.date + " " + this.currentItem.timeTo;
       let formattedItem = {
@@ -67,17 +65,18 @@ var app = new Vue({
         end: formattedEnd
       }
       this.items.add(formattedItem);
-      let unformattedItems = this.items.get();
-      this.formattedItems = this.formatData(unformattedItems);
-      // console.log(this.items);
+      this.update();
     },
     deleteItem(itemId){
       console.log(itemId);
       this.items.remove(itemId);
-      let unformattedItems = this.items.get();
-      this.formattedItems = this.formatData(unformattedItems);
+      this.update();
     },
-    formatData(data) {
+    update(){
+      let unformattedItems = this.items.get();
+      this.formattedItems = this.formatItems(unformattedItems);
+    },
+    formatItems(data) {
       let formattedArray = data.map(item => {
         let start = item.start.split(" ");
         let end = item.end.split(" ");
