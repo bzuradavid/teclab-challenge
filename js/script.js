@@ -1,3 +1,8 @@
+new Vue({
+  el: '#app',
+  vuetify: new Vuetify(),
+})
+
 // create a timeline with some data
 var container = document.getElementById("visualization");
 var items = new vis.DataSet([
